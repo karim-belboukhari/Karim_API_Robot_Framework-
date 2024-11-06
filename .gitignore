@@ -1,0 +1,6 @@
+#ignore venv
+venv
+#ignore .vscode
+.vscode
+#ignore __pycache__
+__pycache__
