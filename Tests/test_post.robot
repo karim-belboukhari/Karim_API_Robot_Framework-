@@ -63,16 +63,31 @@ Create Post
     ${data}=    Create Dictionary    title=foo    body=bar    userId=1
     ${response}=    POST    ${POSTS_URL}    headers=${HEADERS}    json=${data}
     Should Be Equal As Numbers    ${response.status_code}    201
+    ${response_body}=    Set Variable    ${response.json()}
+    Should Contain    ${response_body}    id  
+    Should Contain                  ${response_body}    id    
+    Should Be Equal As Strings      ${response_body['title']}    foo  
+    Should Be Equal As Strings      ${response_body['body']}    bar   
+    Should Be Equal As Numbers      ${response_body['userId']}    1   
+     
 
 Update Post
     [Documentation]    Test updating a post
     ${data}=    Create Dictionary    title=foo updated    body=bar updated    userId=1
     ${response}=    PUT    ${POSTS_URL}/1    headers=${HEADERS}    json=${data}
     Should Be Equal As Numbers    ${response.status_code}    200
+    ${response_body}=    Set Variable    ${response.json()}
+    Should Be Equal As Strings    ${response_body['title']}    foo updated    
+    Should Be Equal As Strings    ${response_body['body']}     bar updated    
+    Should Be Equal As Numbers    ${response_body['userId']}   1            
+
 
 Delete Post
     [Documentation]    Test deleting a post
     ${response}=    DELETE    ${POSTS_URL}/1    headers=${HEADERS}
     Should Be Equal As Numbers    ${response.status_code}    200
+
+
+
 
 
